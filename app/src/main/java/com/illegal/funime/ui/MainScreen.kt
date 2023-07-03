@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.illegal.funime.ui.navigation.NavigationHost
 import com.illegal.funime.ui.utils.BottomNavigationBar
+import com.illegal.funime.ui.utils.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -14,6 +15,7 @@ import com.illegal.funime.ui.utils.BottomNavigationBar
 fun MainScreen(){
     val navController = rememberNavController()
     Scaffold(
+        topBar = { TopBar() },
         bottomBar = { BottomNavigationBar(navController = navController) }
     ) {
         NavigationHost(navController = navController)

@@ -11,6 +11,5 @@ import androidx.compose.ui.Modifier
 fun AnimeScreen(){
 Text(
     text = "Anime screen",
-    modifier = Modifier.fillMaxSize(),
 )
 }
