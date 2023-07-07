@@ -10,7 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.illegal.funime.data.dataaccesscomponents.retrofit.AnimeAPI
 import com.illegal.funime.ui.theme.FunimeTheme
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +28,17 @@ class MainActivity : ComponentActivity() {
                     MainScreen()
                 }
             }
+        }
+    }
+
+    companion object{
+
+        private const val baseUrl = "https://api.jikan.moe/v4/"
+        fun getAnimeApiInstance(): AnimeAPI{
+                return Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build().create(AnimeAPI::class.java)
         }
     }
 }

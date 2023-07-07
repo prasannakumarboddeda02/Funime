@@ -13,11 +13,13 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(){
+fun TopBar(
+    title :String
+){
     TopAppBar(
         title = {
             Text(
-                text = "It's anime time",
+                text = title,
                 modifier = Modifier.padding(horizontal = 10.dp)
             )
         },

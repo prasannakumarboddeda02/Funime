@@ -15,7 +15,6 @@ import com.illegal.funime.ui.utils.TopBar
 fun MainScreen(){
     val navController = rememberNavController()
     Scaffold(
-        topBar = { TopBar() },
         bottomBar = { BottomNavigationBar(navController = navController) }
     ) {
         NavigationHost(navController = navController)
