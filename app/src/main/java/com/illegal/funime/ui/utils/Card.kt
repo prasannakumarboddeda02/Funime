@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -34,10 +35,10 @@ fun CardItem(
                 .width(120.dp)
         ) {
             AsyncImage(
-                modifier = Modifier.fillMaxSize(),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(imageUrl).build(),
-                contentDescription = title
+                contentDescription = title,
+                contentScale = ContentScale.Crop
             )
             Box(
                 Modifier
