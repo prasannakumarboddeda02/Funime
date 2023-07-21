@@ -25,14 +25,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.illegal.funime.R
+import com.illegal.funime.data.horizontalpagerdata.PagerSlideAnime
+import com.illegal.funime.data.horizontalpagerdata.PagerSlideManga
 import com.illegal.funime.ui.theme.RobotoSlab
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Pager(){
+fun Pager(
+    anime :Boolean
+){
     val pagerState = rememberPagerState()
-    val slides = PagerSlide.values()
+    val slidesAnime = PagerSlideAnime.values()
+    val slidesManga = PagerSlideManga.values()
     Box {
         HorizontalPager(
             state = pagerState,
@@ -48,8 +52,8 @@ fun Pager(){
         ) { Index ->
             Box{
                 Image(
-                    painter = painterResource(id = slides[Index].image),
-                    contentDescription = slides[Index].title
+                    painter = painterResource(id = if(anime) slidesAnime[Index].image else slidesManga[Index].image),
+                    contentDescription = if(anime) slidesAnime[Index].title else slidesManga[Index].title
                 )
                 Box(
                     Modifier
@@ -72,7 +76,7 @@ fun Pager(){
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     TextWithShadow(
-                        text = slides[Index].title,
+                        text = if(anime) slidesAnime[Index].title else slidesManga[Index].title,
                         color = Color.White,
                         fontFamily = RobotoSlab,
                         style = MaterialTheme.typography.headlineSmall
@@ -86,13 +90,13 @@ fun Pager(){
                 .padding(end = 15.dp, bottom = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            repeat(slides.size) {
+            repeat(4) {
                 Box(
                     Modifier
                         .size(8.dp)
-                        .padding(if (pagerState.currentPage % slides.size == it) 0.dp else 1.dp)
+                        .padding(if (pagerState.currentPage % 4 == it) 0.dp else 1.dp)
                         .background(
-                            color = if (pagerState.currentPage % slides.size == it)
+                            color = if (pagerState.currentPage % 4 == it)
                                 Color.White.copy(0.9f)
                             else Color.White.copy(0.6f),
                             shape = CircleShape
@@ -101,40 +105,4 @@ fun Pager(){
             }
         }
     }
-}
-
-enum class PagerSlide(
-    val image: Int,
-    val animeId: Int,
-    val title: String,
-    val description: String,
-) {
-    PagerSlide1(
-        image = R.drawable.dragonball,
-        animeId = 813,
-        title = "Dragon Ball Z",
-        description = ""
-    ),
-
-    PagerSlide2(
-        image = R.drawable.onepiece,
-        animeId = 21,
-        title = "One piece",
-        description = ""
-    ),
-
-    PagerSlide3(
-        image = R.drawable.naruto,
-        animeId = 20,
-        title = "Naruto",
-        description = ""
-    ),
-
-    PagerSlide4(
-        image = R.drawable.bleach,
-        animeId = 269,
-        title = "Bleach",
-        description = ""
-    )
-
 }

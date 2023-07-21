@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
 import com.illegal.funime.data.repositories.AnimeRepository
 import com.illegal.funime.ui.MainActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class AnimeScreenViewModel : ViewModel() {
@@ -18,15 +21,45 @@ class AnimeScreenViewModel : ViewModel() {
 
     var airingList by mutableStateOf<List<Data>?>(null)
 
+    var upcomingList by mutableStateOf<List<Data>?>(null)
+
+    var popularList by mutableStateOf<List<Data>?>(null)
+
+    var popularListFilter by mutableStateOf<List<Data>?>(null)
+
     init{
         getAiringAnime()
+        getUpcomingAnime()
+        getPopularAnime()
+        getPopularAnimeTopRated()
     }
 
     private fun getAiringAnime(){
         viewModelScope.launch {
-            airingList = animeRepository.getAiringList()
+            animeRepository.getAiringList()
+                .flowOn(context = Dispatchers.IO)
+                .collect{
+                    airingList = it
+                }
         }
     }
 
+    private fun getUpcomingAnime(){
+        viewModelScope.launch {
+            upcomingList = animeRepository.getUpcomingList()
+        }
+    }
 
+    private fun getPopularAnime(){
+        viewModelScope.launch {
+            popularList = animeRepository.getPopularList()
+        }
+    }
+
+    private fun getPopularAnimeTopRated(){
+        viewModelScope.launch {
+            delay(3000)
+            popularListFilter = animeRepository.getPopularListFilter(filter = "bypopularity")
+        }
+    }
 }

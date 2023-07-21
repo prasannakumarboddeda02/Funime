@@ -8,7 +8,7 @@ interface AnimeAPI {
 
     @GET("seasons/now")
     suspend fun getCurrentSeason(
-        @Query("page") page:Int
+        @Query("page") page:Int,
     ): AnimeResponse
 
     @GET("seasons/upcoming")
@@ -18,7 +18,18 @@ interface AnimeAPI {
 
     @GET("top/anime")
     suspend fun getPopularAnime(
-        @Query("page") page: Int
+        @Query("page") page: Int,
     ): AnimeResponse
 
+    @GET("top/anime")
+    suspend fun getPopularAnimeFilter(
+        @Query("page") page: Int,
+        @Query("filter") filter: String
+    ): AnimeResponse
+
+    @GET("anime")
+    suspend fun getAnimeSearch(
+        @Query("q") q: String,
+        //@Query("page") page: Int
+    ): AnimeResponse
 }

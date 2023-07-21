@@ -6,11 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.illegal.funime.data.dataaccesscomponents.retrofit.AnimeAPI
+import com.illegal.funime.data.dataaccesscomponents.retrofit.MangaAPI
 import com.illegal.funime.ui.theme.FunimeTheme
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -34,27 +32,18 @@ class MainActivity : ComponentActivity() {
     companion object{
 
         private const val baseUrl = "https://api.jikan.moe/v4/"
+
+        private val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
         fun getAnimeApiInstance(): AnimeAPI{
-                return Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build().create(AnimeAPI::class.java)
+                return retrofit.create(AnimeAPI::class.java)
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FunimeTheme {
-        Greeting("Android")
+        fun getMangaApiInstance(): MangaAPI{
+            return retrofit.create(MangaAPI::class.java)
+        }
     }
 }

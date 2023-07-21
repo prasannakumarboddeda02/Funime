@@ -1,18 +1,19 @@
 package com.illegal.funime.ui.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
-import com.illegal.funime.ui.utils.CardItem
 import com.illegal.funime.ui.utils.HeadAndMore
+import com.illegal.funime.ui.utils.LazyRowAnime
+import com.illegal.funime.ui.utils.Loading
 import com.illegal.funime.ui.utils.Pager
 import com.illegal.funime.ui.utils.SpacerHeight
 import com.illegal.funime.ui.utils.TopBar
@@ -20,34 +21,66 @@ import com.illegal.funime.ui.viewmodels.AnimeScreenViewModel
 
 
 @Composable
-fun AnimeScreen() {
+fun AnimeScreen(
+    paddingValues: PaddingValues
+) {
     val viewModel: AnimeScreenViewModel = viewModel()
-    Column {
+    Column(
+        modifier = Modifier.padding(paddingValues)
+    ) {
         TopBar("It's anime time!")
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
         ) {
             item {
-                Pager()
+                Pager(anime = true)
                 SpacerHeight(height = 10.dp)
                 HeadAndMore(head = "Airing")
                 if (viewModel.airingList != null) {
-                    AiringRow(list = viewModel.airingList!!)
+                    LazyRowAnime(list = viewModel.airingList!!)
+                }
+                else{
+                    Loading(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                    )
+                }
+                SpacerHeight(height = 10.dp)
+                HeadAndMore(head = "Upcoming")
+                if(viewModel.upcomingList != null){
+                    LazyRowAnime(list = viewModel.upcomingList!!)
+                }
+                else{
+                    Loading(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                    )
+                }
+                SpacerHeight(height = 10.dp)
+                HeadAndMore(head = "Top rated")
+                if(viewModel.popularList != null){
+                    LazyRowAnime(list = viewModel.popularList!!)
+                }
+                else{
+                    Loading(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                    )
+                }
+                SpacerHeight(height = 10.dp)
+                HeadAndMore(head = "Popular")
+                if(viewModel.popularListFilter != null){
+                    LazyRowAnime(list = viewModel.popularListFilter!!)
+                }
+                else{
+                    Loading(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                    )
                 }
             }
         }
     }
 }
 
-@Composable
-fun AiringRow(
-    list :List<Data>
-){
-    LazyRow{
-        items(count = list.size){Index ->
-            Spacer(Modifier.width(10.dp))
-            CardItem(imageUrl = list[Index].images.jpg.large_image_url, title = list[Index].title)
-        }
-    }
-}

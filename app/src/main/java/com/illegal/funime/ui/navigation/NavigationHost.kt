@@ -1,5 +1,6 @@
 package com.illegal.funime.ui.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -13,14 +14,15 @@ import com.illegal.funime.ui.utils.BottomNavItem
 
 @Composable
 fun NavigationHost(
-    navController: NavHostController
+    navController: NavHostController,
+    paddingValues: PaddingValues
 ){
     NavHost(navController = navController, startDestination = BottomNavItem.Anime.screen_route){
         composable(BottomNavItem.Anime.screen_route) {
-            AnimeScreen()
+            AnimeScreen(paddingValues = paddingValues)
         }
         composable(BottomNavItem.Manga.screen_route) {
-            MangaScreen()
+            MangaScreen(paddingValues = paddingValues)
         }
         composable(BottomNavItem.Favourites.screen_route) {
             FavouritesScreen()
