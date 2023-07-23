@@ -1,5 +1,6 @@
 package com.illegal.funime.ui.utils
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import com.illegal.funime.ui.theme.RobotoSlab
 @Composable
 fun HeadAndMore(
     head: String,
+    onMoreClick :() -> Unit
 ){
     Row(
         modifier = Modifier
@@ -37,14 +39,10 @@ fun HeadAndMore(
             fontSize = 18.sp,
             fontFamily = RobotoSlab,
             style = MaterialTheme.typography.labelSmall,
-            modifier = Modifier.padding(end = 20.dp),
+            modifier = Modifier
+                .padding(end = 20.dp)
+                .clickable(onClick = onMoreClick, enabled = true),
             color = Color.Blue
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewHeadAndMore(){
-    HeadAndMore(head = "Airing")
 }

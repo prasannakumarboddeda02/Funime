@@ -1,13 +1,13 @@
-package com.illegal.funime.data.datamodels.retrofit
+package com.illegal.funime.data.dataaccesscomponents.source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.illegal.funime.data.datamodels.retrofit.mangamodel.Data
-import com.illegal.funime.data.repositories.MangaRepository
+import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
+import com.illegal.funime.data.repositories.AnimeRepository
 import kotlinx.coroutines.delay
 
-class MangaDataSource(
-    private val mangaRepo :MangaRepository
+class FilterPaginationSource(
+    private val animeRepo : AnimeRepository
 ) : PagingSource<Int, Data>() {
     override fun getRefreshKey(state: PagingState<Int, Data>): Int? {
         return state.anchorPosition/*?.let{position ->
@@ -19,7 +19,7 @@ class MangaDataSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Data> {
         return try{
             val currentPage = params.key?: 1
-            val response = mangaRepo.getMangaList(currentPage)
+            val response = animeRepo.getPopularFilterPaginationList(currentPage)
             delay(
                 if (currentPage == 1) {
                     0

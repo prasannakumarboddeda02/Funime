@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.illegal.funime.ui.utils.HeadAndMore
 import com.illegal.funime.ui.utils.LazyRowAnime
 import com.illegal.funime.ui.utils.Loading
@@ -22,7 +23,8 @@ import com.illegal.funime.ui.viewmodels.AnimeScreenViewModel
 
 @Composable
 fun AnimeScreen(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navController: NavController
 ) {
     val viewModel: AnimeScreenViewModel = viewModel()
     Column(
@@ -36,7 +38,18 @@ fun AnimeScreen(
             item {
                 Pager(anime = true)
                 SpacerHeight(height = 10.dp)
-                HeadAndMore(head = "Airing")
+                HeadAndMore(
+                    head = "Airing",
+                    onMoreClick = {
+                        navController.navigate("more/Airing"){
+                            popUpTo(id = navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            restoreState = true
+                            launchSingleTop = true
+                        }
+                    }
+                )
                 if (viewModel.airingList != null) {
                     LazyRowAnime(list = viewModel.airingList!!)
                 }
@@ -47,7 +60,11 @@ fun AnimeScreen(
                     )
                 }
                 SpacerHeight(height = 10.dp)
-                HeadAndMore(head = "Upcoming")
+                HeadAndMore(
+                    head = "Upcoming",
+                    onMoreClick = {
+                        navController.navigate("more/Upcoming")
+                    })
                 if(viewModel.upcomingList != null){
                     LazyRowAnime(list = viewModel.upcomingList!!)
                 }
@@ -58,7 +75,11 @@ fun AnimeScreen(
                     )
                 }
                 SpacerHeight(height = 10.dp)
-                HeadAndMore(head = "Top rated")
+                HeadAndMore(
+                    head = "Top rated",
+                    onMoreClick = {
+                        navController.navigate("more/Top rated")
+                    })
                 if(viewModel.popularList != null){
                     LazyRowAnime(list = viewModel.popularList!!)
                 }
@@ -69,7 +90,11 @@ fun AnimeScreen(
                     )
                 }
                 SpacerHeight(height = 10.dp)
-                HeadAndMore(head = "Popular")
+                HeadAndMore(
+                    head = "Popular",
+                    onMoreClick = {
+                        navController.navigate("more/popular")
+                    })
                 if(viewModel.popularListFilter != null){
                     LazyRowAnime(list = viewModel.popularListFilter!!)
                 }

@@ -2,7 +2,7 @@ package com.illegal.funime.ui.utils
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -13,22 +13,23 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(
-    title :String
+fun TopBarBack(
+    text :String
 ){
     TopAppBar(
         title = {
             Text(
-                text = title,
+                text = text,
                 modifier = Modifier.padding(horizontal = 10.dp)
             )
         },
         navigationIcon = {
             Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "drawer",
-                modifier = Modifier.padding(all = 10.dp)
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Back arrow",
+                modifier = Modifier
+                    .padding(all = 10.dp)
             )
-        }
+        },
     )
 }

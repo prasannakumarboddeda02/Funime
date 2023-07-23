@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface MangaAPI {
 
-    @GET("/manga")
+    @GET("manga")
     suspend fun getMangaList(@Query("page") page :Int) :MangaResponse
 
 }

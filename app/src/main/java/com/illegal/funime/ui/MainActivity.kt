@@ -31,6 +31,8 @@ class MainActivity : ComponentActivity() {
 
     companion object{
 
+        val context = this
+
         private const val baseUrl = "https://api.jikan.moe/v4/"
 
         private val retrofit = Retrofit.Builder()
