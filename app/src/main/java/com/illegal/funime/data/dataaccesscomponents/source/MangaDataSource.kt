@@ -1,25 +1,22 @@
 package com.illegal.funime.data.dataaccesscomponents.source
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.illegal.funime.data.datamodels.retrofit.mangamodel.Data
-import com.illegal.funime.data.datamodels.retrofit.mangamodel.MangaResponse
+import com.illegal.funime.data.datamodels.retrofit.mangamodel.MangaData
 import com.illegal.funime.data.repositories.MangaRepository
-import com.illegal.funime.ui.utils.BottomNavItem
 import kotlinx.coroutines.delay
 
 class MangaDataSource(
     private val mangaRepo :MangaRepository
-) : PagingSource<Int, Data>() {
-    override fun getRefreshKey(state: PagingState<Int, Data>): Int? {
+) : PagingSource<Int, MangaData>() {
+    override fun getRefreshKey(state: PagingState<Int, MangaData>): Int? {
         return state.anchorPosition/*?.let{position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minus(1)?:page?.nextKey?.plus(1)
         }*/
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Data> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MangaData> {
         return try{
             val currentPage = params.key?: 1
             val response = mangaRepo.getMangaList(currentPage)

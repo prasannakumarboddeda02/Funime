@@ -1,6 +1,6 @@
 package com.illegal.funime.data.datamodels.retrofit.mangamodel
 
-data class Data(
+data class MangaData(
     val approved: Boolean,
     val authors: List<Author>,
     val background: String,

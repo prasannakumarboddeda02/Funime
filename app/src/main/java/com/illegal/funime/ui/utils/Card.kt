@@ -1,6 +1,7 @@
 package com.illegal.funime.ui.utils
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -28,13 +30,16 @@ import coil.request.ImageRequest
 @Composable
 fun CardItem(
     imageUrl: String ,
-    title: String
+    title: String,
+    id :Int,
+    onCardClick :() -> Unit
 ){
     Card {
         Box(
             modifier = Modifier
                 .height(150.dp)
                 .width(120.dp)
+                .clickable(onClick = onCardClick)
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)

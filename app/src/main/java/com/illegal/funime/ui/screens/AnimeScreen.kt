@@ -51,7 +51,9 @@ fun AnimeScreen(
                     }
                 )
                 if (viewModel.airingList != null) {
-                    LazyRowAnime(list = viewModel.airingList!!)
+                    LazyRowAnime(
+                        list = viewModel.airingList!!,
+                    navController = navController)
                 }
                 else{
                     Loading(modifier = Modifier
@@ -66,7 +68,8 @@ fun AnimeScreen(
                         navController.navigate("more/Upcoming")
                     })
                 if(viewModel.upcomingList != null){
-                    LazyRowAnime(list = viewModel.upcomingList!!)
+                    LazyRowAnime(list = viewModel.upcomingList!!,
+                        navController = navController)
                 }
                 else{
                     Loading(modifier = Modifier
@@ -81,7 +84,8 @@ fun AnimeScreen(
                         navController.navigate("more/Top rated")
                     })
                 if(viewModel.popularList != null){
-                    LazyRowAnime(list = viewModel.popularList!!)
+                    LazyRowAnime(list = viewModel.popularList!!,
+                        navController = navController)
                 }
                 else{
                     Loading(modifier = Modifier
@@ -96,7 +100,8 @@ fun AnimeScreen(
                         navController.navigate("more/popular")
                     })
                 if(viewModel.popularListFilter != null){
-                    LazyRowAnime(list = viewModel.popularListFilter!!)
+                    LazyRowAnime(list = viewModel.popularListFilter!!,
+                        navController = navController)
                 }
                 else{
                     Loading(modifier = Modifier

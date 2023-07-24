@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.illegal.funime.ui.screens.AnimeDetailScreen
 import com.illegal.funime.ui.screens.AnimeScreen
 import com.illegal.funime.ui.screens.FavouritesScreen
 import com.illegal.funime.ui.screens.MangaScreen
@@ -28,7 +29,10 @@ fun NavigationHost(
             )
         }
         composable(BottomNavItem.Manga.screen_route) {
-            MangaScreen(paddingValues = paddingValues)
+            MangaScreen(
+                paddingValues = paddingValues,
+                navController = navController
+            )
         }
         composable(BottomNavItem.Favourites.screen_route) {
             FavouritesScreen()
@@ -42,7 +46,17 @@ fun NavigationHost(
         ) {
             it.arguments?.getString("category")?.let { it1 ->
                 MoreAnimeScreen(
-                    it1
+                    category = it1,
+                    navController = navController
+                )
+            }
+        }
+
+        composable("animeDetail/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType })){
+            it.arguments?.getString("id")?.let { id ->
+                AnimeDetailScreen(
+                    id = id
                 )
             }
         }
