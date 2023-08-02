@@ -49,11 +49,11 @@ fun Pager(
             beyondBoundsPageCount = 0,
             pageSpacing = 0.dp,
             verticalAlignment = Alignment.CenterVertically
-        ) { Index ->
+        ) { index ->
             Box{
                 Image(
-                    painter = painterResource(id = if(anime) slidesAnime[Index].image else slidesManga[Index].image),
-                    contentDescription = if(anime) slidesAnime[Index].title else slidesManga[Index].title
+                    painter = painterResource(id = if(anime) slidesAnime[index].image else slidesManga[index].image),
+                    contentDescription = if(anime) slidesAnime[index].title else slidesManga[index].title
                 )
                 Box(
                     Modifier
@@ -76,7 +76,7 @@ fun Pager(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     TextWithShadow(
-                        text = if(anime) slidesAnime[Index].title else slidesManga[Index].title,
+                        text = if(anime) slidesAnime[index].title else slidesManga[index].title,
                         color = Color.White,
                         fontFamily = RobotoSlab,
                         style = MaterialTheme.typography.headlineSmall

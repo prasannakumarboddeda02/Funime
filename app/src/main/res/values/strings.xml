@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Funime</string>
+    <string name="finished_airing">Finished Airing</string>
+    <string name="currently_airing">Currently Airing</string>
 </resources>

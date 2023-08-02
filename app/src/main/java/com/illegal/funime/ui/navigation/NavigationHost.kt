@@ -19,26 +19,27 @@ import com.illegal.funime.ui.utils.BottomNavItem
 @Composable
 fun NavigationHost(
     navController: NavHostController,
-    paddingValues: PaddingValues
 ) {
     NavHost(navController = navController, startDestination = BottomNavItem.Anime.screen_route) {
         composable(BottomNavItem.Anime.screen_route) {
             AnimeScreen(
-                paddingValues = paddingValues,
                 navController = navController
             )
         }
         composable(BottomNavItem.Manga.screen_route) {
             MangaScreen(
-                paddingValues = paddingValues,
                 navController = navController
             )
         }
         composable(BottomNavItem.Favourites.screen_route) {
-            FavouritesScreen()
+            FavouritesScreen(
+                navController = navController
+            )
         }
         composable(BottomNavItem.Search.screen_route) {
-            SearchScreen()
+            SearchScreen(
+                navController = navController
+            )
         }
         composable(
             "more/{category}",
@@ -56,7 +57,8 @@ fun NavigationHost(
             arguments = listOf(navArgument("id") { type = NavType.StringType })){
             it.arguments?.getString("id")?.let { id ->
                 AnimeDetailScreen(
-                    id = id
+                    id = id,
+                    navController = navController
                 )
             }
         }

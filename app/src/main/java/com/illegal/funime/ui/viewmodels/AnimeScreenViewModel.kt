@@ -10,6 +10,9 @@ import com.illegal.funime.data.repositories.AnimeRepository
 import com.illegal.funime.ui.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
@@ -18,6 +21,9 @@ class AnimeScreenViewModel : ViewModel() {
     private val retrofitInstance = MainActivity.getAnimeApiInstance()
 
     private val animeRepository = AnimeRepository(retrofit = retrofitInstance)
+
+    private var _state = MutableStateFlow<AnimeScreenState>(AnimeScreenState.Loading)
+    var state : StateFlow<AnimeScreenState> = _state.asStateFlow()
 
     var airingList by mutableStateOf<List<Data>?>(null)
 
@@ -28,10 +34,15 @@ class AnimeScreenViewModel : ViewModel() {
     var popularListFilter by mutableStateOf<List<Data>?>(null)
 
     init{
-        getAiringAnime()
-        getUpcomingAnime()
-        getPopularAnime()
-        getPopularAnimeTopRated()
+        try {
+            getAiringAnime()
+            getUpcomingAnime()
+            getPopularAnime()
+            getPopularAnimeTopRated()
+        }
+        catch(e : Exception){
+            _state.value = AnimeScreenState.Error(e)
+        }
     }
 
     private fun getAiringAnime(){
@@ -53,6 +64,7 @@ class AnimeScreenViewModel : ViewModel() {
     private fun getPopularAnime(){
         viewModelScope.launch {
             popularList = animeRepository.getPopularList()
+            _state.value = AnimeScreenState.Success
         }
     }
 
@@ -62,4 +74,15 @@ class AnimeScreenViewModel : ViewModel() {
             popularListFilter = animeRepository.getPopularListFilter(filter = "bypopularity")
         }
     }
+}
+
+sealed class AnimeScreenState{
+
+    object Loading : AnimeScreenState()
+
+    object Success : AnimeScreenState()
+
+    data class Error(
+        var error : Exception
+    ) : AnimeScreenState()
 }

@@ -1,7 +1,9 @@
 package com.illegal.funime.data.dataaccesscomponents.retrofit
 
+import com.illegal.funime.data.datamodels.retrofit.animedetailmodel.AnimeDetail
 import com.illegal.funime.data.datamodels.retrofit.animemodel.AnimeResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AnimeAPI {
@@ -32,4 +34,9 @@ interface AnimeAPI {
         @Query("q") q: String,
         //@Query("page") page: Int
     ): AnimeResponse
+
+    @GET("anime/{id}")
+    suspend fun getAnimeById(
+        @Path("id") id :Int
+    ) : AnimeDetail
 }

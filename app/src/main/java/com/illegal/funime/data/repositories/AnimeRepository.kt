@@ -1,6 +1,7 @@
 package com.illegal.funime.data.repositories
 
 import com.illegal.funime.data.dataaccesscomponents.retrofit.AnimeAPI
+import com.illegal.funime.data.datamodels.retrofit.animedetailmodel.AnimeDetailData
 import com.illegal.funime.data.datamodels.retrofit.animemodel.AnimeResponse
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
 import kotlinx.coroutines.flow.Flow
@@ -40,6 +41,12 @@ class AnimeRepository(
 
     suspend fun getPopularFilterPaginationList(page :Int) : AnimeResponse{
         return retrofit.getPopularAnimeFilter(page = page, filter = "bypopularity")
+    }
+
+    suspend fun getAnimeById(
+        id : Int
+    ) : AnimeDetailData {
+        return retrofit.getAnimeById(id = id).data
     }
 
 }

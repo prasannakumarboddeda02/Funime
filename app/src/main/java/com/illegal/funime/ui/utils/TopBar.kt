@@ -1,5 +1,6 @@
 package com.illegal.funime.ui.utils
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -14,7 +15,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    title :String
+    title :String,
+    onNavigationClick : () -> Unit
 ){
     TopAppBar(
         title = {
@@ -27,7 +29,9 @@ fun TopBar(
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "drawer",
-                modifier = Modifier.padding(all = 10.dp)
+                modifier = Modifier
+                    .padding(all = 10.dp)
+                    .clickable {onNavigationClick()},
             )
         }
     )
