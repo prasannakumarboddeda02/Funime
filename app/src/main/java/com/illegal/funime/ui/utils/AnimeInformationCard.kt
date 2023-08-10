@@ -25,7 +25,7 @@ fun AnimeInformationCard(
     season :String?,
     year :Int?,
     rating :String?,
-    duration :String?
+    duration :String?,
 ){
     Surface(
         color = MaterialTheme.colorScheme.surfaceVariant,

@@ -1,5 +1,6 @@
 package com.illegal.funime.data.repositories
 
+import com.illegal.funime.data.DataResult
 import com.illegal.funime.data.dataaccesscomponents.retrofit.AnimeAPI
 import com.illegal.funime.data.datamodels.retrofit.animedetailmodel.AnimeDetailData
 import com.illegal.funime.data.datamodels.retrofit.animemodel.AnimeResponse
@@ -11,6 +12,20 @@ import kotlinx.coroutines.flow.flow
 class AnimeRepository(
     val retrofit: AnimeAPI
 ) {
+    suspend fun getAllList() : DataResult<ArrayList<List<Data>>> {
+        val list = ArrayList<List<Data>>()
+        return try {
+            list.add(retrofit.getCurrentSeason(page = 1).data)
+            list.add(retrofit.getUpcomingSeason(page = 1).data)
+            list.add(retrofit.getPopularAnime(page = 1).data)
+            list.add(retrofit.getPopularAnimeFilter(page = 1, filter = "bypopularity").data)
+            DataResult.Success(data = list)
+        }
+        catch(e :Exception){
+            DataResult.Error(e = e)
+        }
+
+    }
     suspend fun getAiringList() : Flow<List<Data>> = flow{
         emit(retrofit.getCurrentSeason(page = 1).data)
     }
