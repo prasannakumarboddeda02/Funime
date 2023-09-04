@@ -1,16 +1,20 @@
 package com.illegal.funime.data.repositories
 
+import android.util.Log
 import com.illegal.funime.data.DataResult
 import com.illegal.funime.data.dataaccesscomponents.retrofit.AnimeAPI
 import com.illegal.funime.data.datamodels.retrofit.animedetailmodel.AnimeDetailData
 import com.illegal.funime.data.datamodels.retrofit.animemodel.AnimeResponse
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
+import com.illegal.funime.data.roomdb.AnimeDao
+import com.illegal.funime.data.roomdb.AnimeFavourite
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 
 class AnimeRepository(
-    val retrofit: AnimeAPI
+    val retrofit: AnimeAPI,
 ) {
     suspend fun getAllList() : DataResult<ArrayList<List<Data>>> {
         val list = ArrayList<List<Data>>()
@@ -18,6 +22,7 @@ class AnimeRepository(
             list.add(retrofit.getCurrentSeason(page = 1).data)
             list.add(retrofit.getUpcomingSeason(page = 1).data)
             list.add(retrofit.getPopularAnime(page = 1).data)
+            delay(1000)
             list.add(retrofit.getPopularAnimeFilter(page = 1, filter = "bypopularity").data)
             DataResult.Success(data = list)
         }

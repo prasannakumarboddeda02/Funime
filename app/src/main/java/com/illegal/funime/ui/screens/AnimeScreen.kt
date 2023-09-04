@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,7 +20,6 @@ import androidx.navigation.NavController
 import com.illegal.funime.data.DataResult
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
 import com.illegal.funime.ui.utils.BottomNavigationBar
-import com.illegal.funime.ui.utils.Drawer
 import com.illegal.funime.ui.utils.HeadAndMore
 import com.illegal.funime.ui.utils.LazyRowAnime
 import com.illegal.funime.ui.utils.ListLoadingBar
@@ -29,6 +29,7 @@ import com.illegal.funime.ui.utils.TopBar
 import com.illegal.funime.ui.viewmodels.AnimeScreenViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnimeScreen(
     navController: NavController
@@ -38,21 +39,14 @@ fun AnimeScreen(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     Scaffold(
-        scaffoldState = scaffoldState,
         topBar = {
             TopBar(
                 title = "It's anime time!",
                 onNavigationClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
-                    }
                 })
         },
         bottomBar = {
             BottomNavigationBar(navController = navController)
-        },
-        drawerContent = {
-            Drawer()
         },
     ) {
         Column(
@@ -64,7 +58,9 @@ fun AnimeScreen(
                     .fillMaxSize()
             ) {
                 item {
-                    Pager(anime = true)
+                    Pager(
+                        anime = true,
+                        navController = navController)
                     SpacerHeight(height = 10.dp)
                     when(state.value){
                         is DataResult.Success -> {
@@ -115,7 +111,7 @@ fun AnimeScreen(
                         is DataResult.Error -> {
                             Spacer(modifier = Modifier.height(100.dp))
                             Text(
-                                text = "something went wrong!"
+                                text = (state.value as DataResult.Error).e.toString()
                             )
                         }
                     }

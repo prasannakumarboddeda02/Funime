@@ -1,17 +1,21 @@
 package com.illegal.funime.data.repositories
 
+import com.illegal.funime.data.dataaccesscomponents.retrofit.AnimeAPI
+import com.illegal.funime.data.dataaccesscomponents.retrofit.MangaAPI
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
 import com.illegal.funime.data.datamodels.retrofit.mangamodel.MangaResponse
+import com.illegal.funime.data.roomdb.SearchDao
+import com.illegal.funime.data.roomdb.SearchHistory
 import com.illegal.funime.ui.MainActivity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 
-class SearchRepository{
-
-    private val animeAPI = MainActivity.getAnimeApiInstance()
-
-    private val mangaAPI = MainActivity.getMangaApiInstance()
+class SearchRepository(
+    private val searchDao: SearchDao,
+    private val animeAPI: AnimeAPI,
+    private val mangaAPI: MangaAPI
+){
 
     suspend fun getAnimeSearch(
         name :String
@@ -23,5 +27,13 @@ class SearchRepository{
         name :String
     ) :Flow<MangaResponse> = flow{
         emit(mangaAPI.getMangaSearch(q = name))
+    }
+
+    suspend fun getSearchHistory() : List<SearchHistory>{
+        return searchDao.getAllSearch()
+    }
+
+    suspend fun addSearchItem(search : SearchHistory) {
+        searchDao.insert(search = search)
     }
 }

@@ -1,5 +1,7 @@
 package com.illegal.funime.ui
 
+import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,13 +9,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.illegal.funime.data.dataaccesscomponents.retrofit.AnimeAPI
 import com.illegal.funime.data.dataaccesscomponents.retrofit.MangaAPI
+import com.illegal.funime.data.roomdb.AnimeDao
+import com.illegal.funime.data.roomdb.RoomDataBase
 import com.illegal.funime.ui.theme.FunimeTheme
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -21,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    //color = MaterialTheme.colorScheme.background
                 ) {
                     MainScreen()
                 }
@@ -30,8 +37,6 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object{
-
-        val context = this
 
         private const val baseUrl = "https://api.jikan.moe/v4/"
 
@@ -47,5 +52,7 @@ class MainActivity : ComponentActivity() {
         fun getMangaApiInstance(): MangaAPI{
             return retrofit.create(MangaAPI::class.java)
         }
+
+
     }
 }

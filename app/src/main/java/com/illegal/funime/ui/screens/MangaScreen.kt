@@ -49,7 +49,9 @@ fun MangaScreen(
             modifier = Modifier
                 .padding(paddingValues = paddingValues)
         ) {
-            Pager(anime = false)
+            Pager(
+                anime = false,
+                navController = navController)
             when (mangaList.loadState.refresh) {
                 is LoadState.Loading -> {
                     ListLoadingBar()

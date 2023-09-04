@@ -1,18 +1,28 @@
 package com.illegal.funime.ui.viewmodels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.illegal.funime.data.DataResult
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
 import com.illegal.funime.data.datamodels.retrofit.mangamodel.MangaData
 import com.illegal.funime.data.repositories.SearchRepository
+import com.illegal.funime.data.roomdb.RoomDataBase
+import com.illegal.funime.data.roomdb.SearchHistory
+import com.illegal.funime.ui.MainActivity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SearchScreenViewModel(
-    private val searchRepository: SearchRepository = SearchRepository()
-) : ViewModel() {
+class SearchScreenViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository = SearchRepository(
+        animeAPI = MainActivity.getAnimeApiInstance(),
+        mangaAPI = MainActivity.getMangaApiInstance(),
+        searchDao = RoomDataBase.getDatabase(application).searchDao()
+    )
 
 
     private var _animeSearchList = MutableStateFlow<List<Data>>(emptyList())
@@ -21,11 +31,14 @@ class SearchScreenViewModel(
     private var _mangaSearchList = MutableStateFlow<List<MangaData>>(emptyList())
     var mangaSearchList : StateFlow<List<MangaData>> = _mangaSearchList.asStateFlow()
 
+    private var _searchHistory =  MutableStateFlow<DataResult<List<SearchHistory>>>(DataResult.Loading)
+    var searchHistory : StateFlow<DataResult<List<SearchHistory>>> = _searchHistory.asStateFlow()
+
     fun getAnimeSearch(
         name :String
     ){
         viewModelScope.launch {
-            searchRepository.getAnimeSearch(name = name).collect {
+            repository.getAnimeSearch(name = name).collect {
                 _animeSearchList.value = it
             }
         }
@@ -35,9 +48,21 @@ class SearchScreenViewModel(
         name :String
     ){
         viewModelScope.launch{
-            searchRepository.getMangaSearch(name = name).collect{
+            repository.getMangaSearch(name = name).collect{
                 _mangaSearchList.value = it.data
             }
+        }
+    }
+
+    fun getSearchHistory(){
+        viewModelScope.launch {
+            _searchHistory.value = DataResult.Success(repository.getSearchHistory())
+        }
+    }
+
+    fun addSearchItem(search : SearchHistory){
+        viewModelScope.launch {
+            repository.addSearchItem(search = search)
         }
     }
 }

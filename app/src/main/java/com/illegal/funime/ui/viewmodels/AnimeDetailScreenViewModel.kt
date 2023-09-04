@@ -1,12 +1,13 @@
 package com.illegal.funime.ui.viewmodels
 
+import android.app.Application
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.illegal.funime.data.datamodels.retrofit.animedetailmodel.AnimeDetailData
-import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
-import com.illegal.funime.data.repositories.AnimeRepository
+import com.illegal.funime.data.repositories.AnimeDetailRepository
+import com.illegal.funime.data.roomdb.AnimeFavourite
+import com.illegal.funime.data.roomdb.RoomDataBase
 import com.illegal.funime.ui.MainActivity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,11 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class AnimeDetailScreenViewModel : ViewModel() {
+class AnimeDetailScreenViewModel (application: Application) : AndroidViewModel(application) {
 
-    private val repository = AnimeRepository(
-        retrofit = MainActivity.getAnimeApiInstance()
-    )
+
+    private var repository :AnimeDetailRepository = AnimeDetailRepository(
+        retrofit = MainActivity.getAnimeApiInstance(),
+        animeDao = RoomDataBase.getDatabase(application).animeDao())
 
     private var _state = MutableStateFlow<AnimeDetailState>(AnimeDetailState.Loading)
     var state : StateFlow<AnimeDetailState> = _state.asStateFlow()
@@ -39,16 +41,25 @@ class AnimeDetailScreenViewModel : ViewModel() {
         }
     }
 
+    fun saveAnimeFavourites(
+        animeFavourite: AnimeFavourite
+    ){
+        viewModelScope.launch {
+            repository.insertAnimeDatabase(animeFavourite = animeFavourite)
+        }
+    }
 
 
 }
 
 sealed class AnimeDetailState{
-    object Loading : AnimeDetailState()
+    data object Loading : AnimeDetailState()
 
     data class Success(
         val data : AnimeDetailData
     ) : AnimeDetailState()
 
-    object Error : AnimeDetailState()
+    data object Error : AnimeDetailState()
 }
+
+

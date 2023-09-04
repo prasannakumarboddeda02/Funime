@@ -13,6 +13,7 @@ import com.illegal.funime.ui.screens.FavouritesScreen
 import com.illegal.funime.ui.screens.MangaScreen
 import com.illegal.funime.ui.screens.MoreAnimeScreen
 import com.illegal.funime.ui.screens.SearchScreen
+import com.illegal.funime.ui.screens.SettingsScreen
 import com.illegal.funime.ui.utils.BottomNavItem
 
 
@@ -61,6 +62,10 @@ fun NavigationHost(
                     navController = navController
                 )
             }
+        }
+
+        composable("settings"){
+            SettingsScreen()
         }
     }
 }
