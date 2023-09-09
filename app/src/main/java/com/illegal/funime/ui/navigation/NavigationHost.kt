@@ -15,11 +15,13 @@ import com.illegal.funime.ui.screens.MoreAnimeScreen
 import com.illegal.funime.ui.screens.SearchScreen
 import com.illegal.funime.ui.screens.SettingsScreen
 import com.illegal.funime.ui.utils.BottomNavItem
+import com.illegal.funime.ui.viewmodels.UserPreferenceViewModel
 
 
 @Composable
 fun NavigationHost(
     navController: NavHostController,
+    userPreferences : UserPreferenceViewModel
 ) {
     NavHost(navController = navController, startDestination = BottomNavItem.Anime.screen_route) {
         composable(BottomNavItem.Anime.screen_route) {
@@ -65,7 +67,10 @@ fun NavigationHost(
         }
 
         composable("settings"){
-            SettingsScreen()
+            SettingsScreen(
+                navController = navController,
+                userPreferences = userPreferences
+            )
         }
     }
 }

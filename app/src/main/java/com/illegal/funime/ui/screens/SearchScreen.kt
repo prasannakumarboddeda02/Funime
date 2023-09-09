@@ -74,7 +74,9 @@ fun SearchScreen(
         topBar = {
             TopBar(
                 title = "Search",
-                onNavigationClick = {})
+                onNavigationClick = {
+                    navController.navigate("settings")
+                })
         },
         bottomBar = {
             BottomNavigationBar(navController = navController)

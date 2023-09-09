@@ -39,7 +39,9 @@ fun MangaScreen(
         topBar = {
             TopBar(
                 title = "It's manga time!",
-                onNavigationClick = {})
+                onNavigationClick = {
+                    navController.navigate("settings")
+                })
         },
         bottomBar = {
             BottomNavigationBar(navController = navController)

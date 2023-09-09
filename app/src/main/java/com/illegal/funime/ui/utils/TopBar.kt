@@ -40,7 +40,8 @@ fun TopBar(
             imageVector = Icons.Default.Settings,
             contentDescription = "drawer",
             modifier = Modifier
-                .padding(all = 10.dp),
+                .padding(all = 10.dp)
+                .clickable {onNavigationClick()},
         )
     }
 }

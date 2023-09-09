@@ -51,7 +51,9 @@ fun FavouritesScreen(
         topBar = {
             TopBar(
                 title = "Favourites",
-                onNavigationClick = {})
+                onNavigationClick = {
+                    navController.navigate("settings")
+                })
         },
         bottomBar = {
             BottomNavigationBar(navController = navController)
