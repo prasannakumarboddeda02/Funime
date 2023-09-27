@@ -1,9 +1,6 @@
 
 
 # Funime
-
-![One Piece Straw Hat Logo Vector](https://github.com/prasannakumarboddeda02/Funime/assets/112362123/c62c802a-5602-4d4d-9d0d-c12d821f1c66)
-
 Funime is an app for anime fans. It gives users info about anime using MyAnimeList's database. Users can search for anime titles, and see the synopsis, cast, and crew. Funime helps users stay up-to-date with the latest anime releases and discover new shows.
 
 # Technologies used
