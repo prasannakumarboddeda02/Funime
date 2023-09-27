@@ -35,14 +35,14 @@ fun HeadAndMore(
             modifier = Modifier.padding(start = 20.dp)
         )
         Text(
-            text = "all",
+            text = "more",
             fontSize = 18.sp,
             fontFamily = RobotoSlab,
             style = MaterialTheme.typography.labelSmall,
             modifier = Modifier
                 .padding(end = 20.dp)
                 .clickable(onClick = onMoreClick, enabled = true),
-            color = Color.Blue
+            color = MaterialTheme.colorScheme.tertiary
         )
     }
 }

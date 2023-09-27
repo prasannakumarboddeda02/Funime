@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     MainScreen(
-                        userPreferences = userPreferencesVM
+                        userPreferences = userPreferencesVM,
                     )
                 }
             }

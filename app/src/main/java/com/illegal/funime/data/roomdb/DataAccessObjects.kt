@@ -1,6 +1,7 @@
 package com.illegal.funime.data.roomdb
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
@@ -13,6 +14,9 @@ interface AnimeDao{
     @Query("SELECT * FROM anime")
     suspend fun getAllAnime() : List<AnimeFavourite>
 
+    @Delete
+    suspend fun delete(anime : AnimeFavourite)
+
 }
 
 @Dao
@@ -23,6 +27,9 @@ interface MangaDao{
     @Query("SELECT * FROM manga")
     suspend fun getAllManga() : List<MangaFavourite>
 
+    @Delete
+    suspend fun delete(manga : MangaFavourite)
+
 }
 
 @Dao
@@ -32,5 +39,8 @@ interface SearchDao{
 
     @Query("SELECT * FROM search")
     suspend fun getAllSearch() : List<SearchHistory>
+
+    @Delete
+    suspend fun deleteSearch(search :SearchHistory)
 
 }

@@ -12,7 +12,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.illegal.funime.data.roomdb.AnimeFavourite
 import com.illegal.funime.ui.utils.CardItem
+import com.illegal.funime.ui.utils.ErrorMessage
 import com.illegal.funime.ui.utils.ListLoadingBar
 import com.illegal.funime.ui.utils.TopBarBack
 import com.illegal.funime.ui.viewmodels.PaginationScreenViewModel
@@ -20,7 +22,7 @@ import com.illegal.funime.ui.viewmodels.PaginationScreenViewModel
 @Composable
 fun MoreAnimeScreen(
     category :String,
-    navController: NavController
+    navController: NavController,
 ){
     val myViewModel: PaginationScreenViewModel = viewModel(factory = PaginationScreenViewModel.Factory(
         category = category
@@ -63,7 +65,7 @@ fun MoreAnimeScreen(
                 )
             }
             is LoadState.Error -> {
-                TODO(reason = "Implement error")
+                ErrorMessage()
             }
         }
     }

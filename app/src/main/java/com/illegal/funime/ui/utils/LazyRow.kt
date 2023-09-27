@@ -15,14 +15,14 @@ fun LazyRowAnime(
     navController: NavController
 ){
     LazyRow{
-        items(count = list.size){Index ->
+        items(count = list.size){index ->
             Spacer(Modifier.width(10.dp))
             CardItem(
-                imageUrl = list[Index].images.jpg.large_image_url,
-                title = list[Index].title,
-                id = list[Index].mal_id,
+                imageUrl = list[index].images.jpg.large_image_url,
+                title = list[index].title,
+                id = list[index].mal_id,
                 onCardClick = {
-                    navController.navigate("animeDetail/${list[Index].mal_id}")
+                    navController.navigate("animeDetail/${list[index].mal_id}")
                 }
             )
         }

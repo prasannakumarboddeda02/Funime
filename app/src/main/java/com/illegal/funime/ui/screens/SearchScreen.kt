@@ -1,5 +1,6 @@
 package com.illegal.funime.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.illegal.funime.data.DataResult
-import com.illegal.funime.data.roomdb.SearchHistory
 import com.illegal.funime.ui.utils.BottomNavigationBar
 import com.illegal.funime.ui.utils.CardItem
 import com.illegal.funime.ui.utils.Loading
@@ -85,32 +85,38 @@ fun SearchScreen(
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues = paddingValues)) {
-            TextField(
-                value = searchName,
-                onValueChange = {
-                    searchName = it
-                },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = "search")
-                },
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth(6f)
-                    .height(50.dp)
-                    .padding(start = 10.dp, end = 10.dp)
-                    .clip(shape = RoundedCornerShape(50)),
-                colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                ),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(onSearch = {
-                    searching = true
-                    searchScreenViewModel.getAnimeSearch(name = searchName)
-                    searchScreenViewModel.getMangaSearch(name = searchName)
-                    searchScreenViewModel.addSearchItem(SearchHistory(searchName = searchName))
-                })
-            )
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.secondary)
+            ) {
+                TextField(
+                    value = searchName,
+                    onValueChange = {
+                        searchName = it
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.Search, contentDescription = "search")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(6f)
+                        .height(70.dp)
+                        .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 10.dp)
+                        .clip(shape = RoundedCornerShape(50)),
+                    colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                    ),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(onSearch = {
+                        searching = true
+                        searchScreenViewModel.getAnimeSearch(name = searchName)
+                        searchScreenViewModel.getMangaSearch(name = searchName)
+                        searchScreenViewModel.addSearchItem(search = searchName)
+                    })
+                )
+            }
             if(searching) {
                 TabRow(selectedTabIndex = state) {
                     titles.forEachIndexed { index, title ->
@@ -160,7 +166,9 @@ fun SearchScreen(
                                         imageUrl = manga.images.jpg.large_image_url,
                                         title = manga.title,
                                         id = manga.mal_id,
-                                        onCardClick = {}
+                                        onCardClick = {
+                                            navController.navigate("mangaDetail/${manga.mal_id}")
+                                        }
                                     )
                                 }
                             }
@@ -188,12 +196,28 @@ fun SearchScreen(
                             modifier = Modifier
                                 .padding(all = 10.dp)
                         )
+                        if(searchHistory.data.isEmpty()){
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ){
+                                Text(
+                                    text = "No history"
+                                )
+                            }
+                        }
                         LazyColumn(
                             content = {
                                 items(
                                     count = searchHistory.data.size,
                                     itemContent = {index ->
-                                        SearchListItem(text = searchHistory.data[index].searchName)
+                                        SearchListItem(
+                                            text = searchHistory.data[index].searchName,
+                                            onItemClick = {},
+                                            onCloseClick = {
+                                                searchScreenViewModel.deleteSearch(searchHistory.data[index])
+                                            })
                                     })
                             })
                     }

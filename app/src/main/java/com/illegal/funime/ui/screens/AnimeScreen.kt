@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import com.illegal.funime.data.DataResult
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
 import com.illegal.funime.ui.utils.BottomNavigationBar
+import com.illegal.funime.ui.utils.ErrorMessage
 import com.illegal.funime.ui.utils.HeadAndMore
 import com.illegal.funime.ui.utils.LazyRowAnime
 import com.illegal.funime.ui.utils.ListLoadingBar
@@ -27,6 +28,7 @@ import com.illegal.funime.ui.utils.SpacerHeight
 import com.illegal.funime.ui.utils.TopBar
 import com.illegal.funime.ui.viewmodels.AnimeScreenViewModel
 import kotlinx.coroutines.launch
+import java.lang.Error
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +37,6 @@ fun AnimeScreen(
 ) {
     val viewModel: AnimeScreenViewModel = viewModel()
     val state = viewModel.state.collectAsState()
-    val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             TopBar(
@@ -109,14 +110,12 @@ fun AnimeScreen(
                         }
                         is DataResult.Error -> {
                             Spacer(modifier = Modifier.height(100.dp))
-                            Text(
-                                text = (state.value as DataResult.Error).e.toString()
-                            )
+                            ErrorMessage()
                         }
                     }
                 }
             }
         }
-        }
+    }
 }
 

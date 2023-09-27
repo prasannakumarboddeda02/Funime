@@ -1,16 +1,20 @@
 package com.illegal.funime.ui.utils
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.illegal.funime.ui.theme.Blue
 
 @Composable
 fun BottomNavigationBar(
@@ -25,7 +29,7 @@ fun BottomNavigationBar(
     val navBackStackEntry: NavBackStackEntry? by navController.currentBackStackEntryAsState()
     val currentRoute: String? = navBackStackEntry?.destination?.route
     NavigationBar(
-
+        containerColor = MaterialTheme.colorScheme.secondary
     ) {
         itemsList.forEach {navItem ->
             NavigationBarItem(

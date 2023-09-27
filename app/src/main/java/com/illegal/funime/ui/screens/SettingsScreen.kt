@@ -54,7 +54,7 @@ fun SettingsScreen(
                     Text(
                         text = "Theme",
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.tertiary
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     ThemeSwitcher(
                         darkTheme = when (theme.value) {
@@ -81,12 +81,12 @@ fun SettingsScreen(
                 Text(
                     text = "clear favourites data",
                     fontSize = 18.sp,
-                    color = MaterialTheme.colorScheme.tertiary
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
             Divider(
                 thickness = 2.dp,
-                color = MaterialTheme.colorScheme.tertiary
+                color = MaterialTheme.colorScheme.onSurface
             )
             Box(
                 modifier = Modifier
@@ -96,7 +96,7 @@ fun SettingsScreen(
                 Text(
                     text = "About",
                     fontSize = 18.sp,
-                    color = MaterialTheme.colorScheme.tertiary
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

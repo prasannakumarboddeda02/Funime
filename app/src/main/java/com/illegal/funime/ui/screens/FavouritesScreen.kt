@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import com.illegal.funime.data.DataResult
 import com.illegal.funime.ui.utils.BottomNavigationBar
 import com.illegal.funime.ui.utils.CardItem
+import com.illegal.funime.ui.utils.ErrorMessage
 import com.illegal.funime.ui.utils.Loading
 import com.illegal.funime.ui.utils.TopBar
 import com.illegal.funime.ui.viewmodels.FavouriteScreenViewModel
@@ -86,7 +87,8 @@ fun FavouritesScreen(
                         if(animeList.data.isEmpty()){
                             Box(
                                 modifier = Modifier
-                                    .fillMaxSize()
+                                    .fillMaxSize(),
+                                contentAlignment = Alignment.Center
                             ) {
                                 Text(text = "No favourites")
                             }
@@ -116,14 +118,8 @@ fun FavouritesScreen(
                     }
 
                     is DataResult.Error -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "Error occurred")
+                            ErrorMessage()
                         }
-                    }
                 }
             }
             else{
@@ -164,7 +160,7 @@ fun FavouritesScreen(
                                             title = manga.title,
                                             id = Integer.parseInt(manga.mangaId),
                                             onCardClick = {
-
+                                                navController.navigate("mangaDetail/${manga.mangaId}")
                                             }
                                         )
                                     }
@@ -173,13 +169,7 @@ fun FavouritesScreen(
                     }
 
                     is DataResult.Error -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "Error occurred")
-                        }
+                        ErrorMessage()
                     }
                 }
             }

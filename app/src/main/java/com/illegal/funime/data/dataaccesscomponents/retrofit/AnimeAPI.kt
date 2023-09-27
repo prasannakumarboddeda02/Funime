@@ -2,6 +2,7 @@ package com.illegal.funime.data.dataaccesscomponents.retrofit
 
 import com.illegal.funime.data.datamodels.retrofit.animedetailmodel.AnimeDetail
 import com.illegal.funime.data.datamodels.retrofit.animemodel.AnimeResponse
+import com.illegal.funime.data.datamodels.retrofit.charactermodel.CharacterResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -39,4 +40,9 @@ interface AnimeAPI {
     suspend fun getAnimeById(
         @Path("id") id :Int
     ) : AnimeDetail
+
+    @GET("anime/{id}/characters")
+    suspend fun getAnimeCharactersByAnimeID(
+        @Path("id") id: Int
+    ): List<CharacterResponse>
 }

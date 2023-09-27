@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,13 +21,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.illegal.funime.data.DataResult
 import com.illegal.funime.ui.theme.RobotoSlab
 import com.illegal.funime.ui.utils.BottomNavigationBar
 import com.illegal.funime.ui.utils.CardItem
+import com.illegal.funime.ui.utils.ErrorMessage
 import com.illegal.funime.ui.utils.ListLoadingBar
+import com.illegal.funime.ui.utils.Loading
 import com.illegal.funime.ui.utils.Pager
 import com.illegal.funime.ui.utils.TopBar
 import com.illegal.funime.ui.viewmodels.MangaScreenViewModel
+import java.lang.Error
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,6 +40,7 @@ fun MangaScreen(
 ) {
     val mangaScreenViewModel: MangaScreenViewModel = viewModel()
     val mangaList = mangaScreenViewModel.pager.collectAsLazyPagingItems()
+    val state = mangaScreenViewModel.state.collectAsState().value
     Scaffold(
         topBar = {
             TopBar(
@@ -53,50 +59,54 @@ fun MangaScreen(
         ) {
             Pager(
                 anime = false,
-                navController = navController)
+                navController = navController
+            )
             when (mangaList.loadState.refresh) {
-                is LoadState.Loading -> {
-                    ListLoadingBar()
-                }
+                        is LoadState.Loading -> {
+                            ListLoadingBar()
+                        }
 
-                is LoadState.NotLoading -> {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = "Popular manga",
-                        fontSize = 18.sp,
-                        fontFamily = RobotoSlab,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(start = 20.dp)
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    LazyVerticalGrid(
-                        modifier = Modifier.padding(all = 5.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        columns = GridCells.Fixed(3),
-                        content = {
-                            items(
-                                count = mangaList.itemCount,
-                                key = { it }
-                            ) {
-                                mangaList[it]?.let { manga ->
-                                    CardItem(
-                                        imageUrl = manga.images.jpg.large_image_url,
-                                        title = manga.title,
-                                        id = manga.mal_id,
-                                        onCardClick = {}
-                                    )
-                                }
-                            }
-                        })
-                }
+                        is LoadState.NotLoading -> {
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text(
+                                text = "Popular manga",
+                                fontSize = 18.sp,
+                                fontFamily = RobotoSlab,
+                                style = MaterialTheme.typography.titleLarge,
+                                modifier = Modifier.padding(start = 20.dp)
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            LazyVerticalGrid(
+                                modifier = Modifier.padding(all = 5.dp),
+                                verticalArrangement = Arrangement.spacedBy(12.dp),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                columns = GridCells.Fixed(3),
+                                content = {
+                                    items(
+                                        count = mangaList.itemCount,
+                                        key = { it }
+                                    ) {
+                                        mangaList[it]?.let { manga ->
+                                            CardItem(
+                                                imageUrl = manga.images.jpg.large_image_url,
+                                                title = manga.title,
+                                                id = manga.mal_id,
+                                                onCardClick = {
+                                                    navController.navigate("mangaDetail/${manga.mal_id}")
+                                                }
+                                            )
+                                        }
+                                    }
+                                })
+                        }
 
-                is LoadState.Error -> {
-                    TODO(reason = "Implement Error")
+                        is LoadState.Error -> {
+                            ErrorMessage()
+                        }
+                    }
                 }
             }
         }
-    }
-}
+
 
 

@@ -1,5 +1,6 @@
 package com.illegal.funime.ui.utils
 
+import android.content.res.Resources.Theme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,7 @@ fun AnimeInformationCard(
     duration :String?,
 ){
     Surface(
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        color = MaterialTheme.colorScheme.surfaceVariant ,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)

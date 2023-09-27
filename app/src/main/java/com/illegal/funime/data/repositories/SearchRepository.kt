@@ -6,7 +6,6 @@ import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
 import com.illegal.funime.data.datamodels.retrofit.mangamodel.MangaResponse
 import com.illegal.funime.data.roomdb.SearchDao
 import com.illegal.funime.data.roomdb.SearchHistory
-import com.illegal.funime.ui.MainActivity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -33,7 +32,27 @@ class SearchRepository(
         return searchDao.getAllSearch()
     }
 
-    suspend fun addSearchItem(search : SearchHistory) {
+    private suspend fun addSearchItem(search : SearchHistory) {
         searchDao.insert(search = search)
+    }
+
+    suspend fun checkAndAddSearch(
+        list : List<SearchHistory>,
+        search : String
+    ){
+        var flag = true
+        for(i in list){
+            if(i.searchName == search){
+                flag = false
+                break
+            }
+        }
+        if(flag){
+            addSearchItem(search = SearchHistory(searchName = search))
+        }
+    }
+
+    suspend fun deleteSearch(search :SearchHistory){
+        searchDao.deleteSearch(search = search)
     }
 }

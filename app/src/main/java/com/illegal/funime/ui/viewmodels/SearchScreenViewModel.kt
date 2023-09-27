@@ -2,7 +2,6 @@ package com.illegal.funime.ui.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.illegal.funime.data.DataResult
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
@@ -23,7 +22,6 @@ class SearchScreenViewModel(application: Application) : AndroidViewModel(applica
         mangaAPI = MainActivity.getMangaApiInstance(),
         searchDao = RoomDataBase.getDatabase(application).searchDao()
     )
-
 
     private var _animeSearchList = MutableStateFlow<List<Data>>(emptyList())
     var animeSearchList : StateFlow<List<Data>> = _animeSearchList.asStateFlow()
@@ -60,9 +58,31 @@ class SearchScreenViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
-    fun addSearchItem(search : SearchHistory){
+    fun addSearchItem(search : String){
         viewModelScope.launch {
-            repository.addSearchItem(search = search)
+            checkAndAddSearchItem(search = search)
+        }
+    }
+
+    private suspend fun checkAndAddSearchItem(search : String){
+        searchHistory.collect{dataResult ->
+            when(dataResult){
+                is DataResult.Success ->{
+                    repository.checkAndAddSearch(
+                        list = dataResult.data,
+                        search = search
+                    )
+                }
+                else -> {
+                }
+            }
+        }
+    }
+
+    fun deleteSearch(search :SearchHistory){
+        viewModelScope.launch {
+            repository.deleteSearch(search = search)
+            getSearchHistory()
         }
     }
 }

@@ -1,11 +1,14 @@
 package com.illegal.funime.ui.utils
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +22,9 @@ import com.illegal.funime.R
 
 @Composable
 fun SearchListItem(
-    text : String
+    text : String,
+    onItemClick : () -> Unit,
+    onCloseClick : () -> Unit
 ){
     Row(
         modifier = Modifier
@@ -39,7 +44,9 @@ fun SearchListItem(
             )
         }
         Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.redirect_icon), 
-            contentDescription = "search redirect")
+            imageVector = Icons.Default.Close,
+            contentDescription = "search delete",
+            modifier = Modifier
+                .clickable { onCloseClick() })
     }
 }
