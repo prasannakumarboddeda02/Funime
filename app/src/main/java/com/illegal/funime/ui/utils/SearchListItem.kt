@@ -33,7 +33,10 @@ fun SearchListItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row {
+        Row(
+            modifier = Modifier
+                .clickable { onItemClick() }
+        ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.schedule_icon),
                 contentDescription = "search clock"

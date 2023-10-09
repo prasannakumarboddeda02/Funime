@@ -23,32 +23,28 @@ class SearchScreenViewModel(application: Application) : AndroidViewModel(applica
         searchDao = RoomDataBase.getDatabase(application).searchDao()
     )
 
-    private var _animeSearchList = MutableStateFlow<List<Data>>(emptyList())
-    var animeSearchList : StateFlow<List<Data>> = _animeSearchList.asStateFlow()
-
-    private var _mangaSearchList = MutableStateFlow<List<MangaData>>(emptyList())
-    var mangaSearchList : StateFlow<List<MangaData>> = _mangaSearchList.asStateFlow()
+    private var _state = MutableStateFlow<DataResult<ListData>>(DataResult.Success(
+        ListData(
+            animeList = emptyList(),
+            mangaList = emptyList(),
+            searching = false
+        )
+    ))
+    var state : StateFlow<DataResult<ListData>> = _state.asStateFlow()
 
     private var _searchHistory =  MutableStateFlow<DataResult<List<SearchHistory>>>(DataResult.Loading)
     var searchHistory : StateFlow<DataResult<List<SearchHistory>>> = _searchHistory.asStateFlow()
 
-    fun getAnimeSearch(
+    fun getSearch(
         name :String
     ){
-        viewModelScope.launch {
-            repository.getAnimeSearch(name = name).collect {
-                _animeSearchList.value = it
+        try {
+            viewModelScope.launch {
+                _state.value = repository.getSearch(name = name)
             }
         }
-    }
-
-    fun getMangaSearch(
-        name :String
-    ){
-        viewModelScope.launch{
-            repository.getMangaSearch(name = name).collect{
-                _mangaSearchList.value = it.data
-            }
+        catch(e : Exception){
+            _state.value = DataResult.Error(e = e)
         }
     }
 
@@ -86,3 +82,9 @@ class SearchScreenViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 }
+
+data class ListData(
+    var animeList : List<Data>,
+    var mangaList : List<MangaData>,
+    var searching : Boolean
+)

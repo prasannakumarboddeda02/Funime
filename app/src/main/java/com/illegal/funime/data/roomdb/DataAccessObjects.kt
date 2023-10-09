@@ -17,6 +17,9 @@ interface AnimeDao{
     @Delete
     suspend fun delete(anime : AnimeFavourite)
 
+    @Query("DELETE FROM anime")
+    suspend fun deleteAllAnime()
+
 }
 
 @Dao
@@ -29,6 +32,9 @@ interface MangaDao{
 
     @Delete
     suspend fun delete(manga : MangaFavourite)
+
+    @Query("DELETE FROM manga")
+    suspend fun deleteAllManga()
 
 }
 

@@ -15,6 +15,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.illegal.funime.data.roomdb.AnimeFavourite
 import com.illegal.funime.ui.utils.CardItem
 import com.illegal.funime.ui.utils.ErrorMessage
+import com.illegal.funime.ui.utils.ErrorMessageWithoutButton
 import com.illegal.funime.ui.utils.ListLoadingBar
 import com.illegal.funime.ui.utils.TopBarBack
 import com.illegal.funime.ui.viewmodels.PaginationScreenViewModel
@@ -65,7 +66,7 @@ fun MoreAnimeScreen(
                 )
             }
             is LoadState.Error -> {
-                ErrorMessage()
+                ErrorMessageWithoutButton()
             }
         }
     }

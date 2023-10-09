@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Description(
-    synopsis :String
+    synopsis :String?
 ){
     Box(
         modifier = Modifier
@@ -33,9 +33,14 @@ fun Description(
                     fontWeight = FontWeight.Bold
                 )
             )
-            Text(
-                text = synopsis,
-            )
+            if (synopsis != null) {
+                Text(
+                    text = synopsis,
+                )
+            }
+            else{
+                Text(text = "No description")
+            }
         }
     }
 }

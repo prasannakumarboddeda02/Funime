@@ -1,5 +1,6 @@
 package com.illegal.funime.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.illegal.funime.ui.utils.SpacerHeight
 import com.illegal.funime.ui.utils.ThemeSwitcher
 import com.illegal.funime.ui.utils.TopBarBack
+import com.illegal.funime.ui.viewmodels.SettingsScreenViewModel
 import com.illegal.funime.ui.viewmodels.UserPreferenceViewModel
 
 @Composable
@@ -28,6 +31,8 @@ fun SettingsScreen(
     userPreferences : UserPreferenceViewModel
 ) {
     val theme = userPreferences.theme.collectAsStateWithLifecycle()
+
+    val viewModel : SettingsScreenViewModel = viewModel()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -71,17 +76,20 @@ fun SettingsScreen(
             }
             Divider(
                 thickness = 2.dp,
-                color = MaterialTheme.colorScheme.tertiary
+                color = MaterialTheme.colorScheme.onSurface
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(all = 18.dp)
+                    .clickable {
+                        viewModel.deleteFavourites()
+                    }
             ) {
                 Text(
                     text = "clear favourites data",
                     fontSize = 18.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(all = 18.dp)
                 )
             }
             Divider(
@@ -91,12 +99,12 @@ fun SettingsScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(all = 18.dp)
             ) {
                 Text(
                     text = "About",
                     fontSize = 18.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(all = 18.dp)
                 )
             }
         }

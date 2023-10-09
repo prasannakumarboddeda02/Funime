@@ -44,6 +44,7 @@ import androidx.navigation.NavController
 import com.illegal.funime.data.DataResult
 import com.illegal.funime.ui.utils.BottomNavigationBar
 import com.illegal.funime.ui.utils.CardItem
+import com.illegal.funime.ui.utils.ErrorMessage
 import com.illegal.funime.ui.utils.Loading
 import com.illegal.funime.ui.utils.SearchListItem
 import com.illegal.funime.ui.utils.TopBar
@@ -55,7 +56,11 @@ fun SearchScreen(
     navController :NavController
 ) {
     val searchScreenViewModel: SearchScreenViewModel = viewModel()
+
+    val searchState = searchScreenViewModel.state.collectAsState().value
+
     searchScreenViewModel.getSearchHistory()
+
     var searchName by remember {
         mutableStateOf("")
     }
@@ -63,8 +68,6 @@ fun SearchScreen(
     var searching by remember {
         mutableStateOf(false)
     }
-    val animeList = searchScreenViewModel.animeSearchList.collectAsState()
-    val mangaList = searchScreenViewModel.mangaSearchList.collectAsState()
     val searchHistory = searchScreenViewModel.searchHistory.collectAsState().value
 
     var state by remember { mutableIntStateOf(0) }
@@ -111,122 +114,154 @@ fun SearchScreen(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = {
                         searching = true
-                        searchScreenViewModel.getAnimeSearch(name = searchName)
-                        searchScreenViewModel.getMangaSearch(name = searchName)
+                        searchScreenViewModel.getSearch(name = searchName)
                         searchScreenViewModel.addSearchItem(search = searchName)
                     })
                 )
             }
-            if(searching) {
-                TabRow(selectedTabIndex = state) {
-                    titles.forEachIndexed { index, title ->
-                        Tab(
-                            text = { Text(title) },
-                            selected = state == index,
-                            onClick = { state = index }
-                        )
-                    }
-                }
-                if (state == 0) {
-                    LazyVerticalGrid(
-                        modifier = Modifier.padding(all = 5.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        columns = GridCells.Fixed(3),
-                        content = {
-                            items(
-                                count = animeList.value.size,
-                                key = { it }
-                            ) {
-                                animeList.value[it].let { anime ->
-                                    CardItem(
-                                        imageUrl = anime.images.jpg.large_image_url,
-                                        title = anime.title,
-                                        id = anime.mal_id,
-                                        onCardClick = {
-                                            navController.navigate("animeDetail/${anime.mal_id}")
-                                        }
-                                    )
-                                }
-                            }
-                        })
-                } else {
-                    LazyVerticalGrid(
-                        modifier = Modifier.padding(all = 5.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        columns = GridCells.Fixed(3),
-                        content = {
-                            items(
-                                count = mangaList.value.size,
-                                key = { it }
-                            ) {
-                                mangaList.value[it].let { manga ->
-                                    CardItem(
-                                        imageUrl = manga.images.jpg.large_image_url,
-                                        title = manga.title,
-                                        id = manga.mal_id,
-                                        onCardClick = {
-                                            navController.navigate("mangaDetail/${manga.mal_id}")
-                                        }
-                                    )
-                                }
-                            }
-                        })
-                }
-            }
-            else{
-                when(searchHistory){
+                when (searchState) {
                     is DataResult.Loading -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Loading(modifier = Modifier.fillMaxWidth())
-                        }
+                        Loading(modifier = Modifier.fillMaxSize())
                     }
 
                     is DataResult.Success -> {
-                        Text(
-                            text = "search history",
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold
-                            ),
-                            modifier = Modifier
-                                .padding(all = 10.dp)
-                        )
-                        if(searchHistory.data.isEmpty()){
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ){
+                        if (searchState.data.searching) {
+                            TabRow(
+                                selectedTabIndex = state,
+                                containerColor = MaterialTheme.colorScheme.secondary
+                            ) {
+                                titles.forEachIndexed { index, title ->
+                                    Tab(
+                                        text = { Text(title) },
+                                        selected = state == index,
+                                        onClick = { state = index }
+                                    )
+                                }
+                            }
+                            if (state == 0) {
+                                LazyVerticalGrid(
+                                    modifier = Modifier.padding(all = 5.dp),
+                                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    columns = GridCells.Fixed(3),
+                                    content = {
+                                        items(
+                                            count = searchState.data.animeList.size,
+                                            key = { it }
+                                        ) {
+                                            searchState.data.animeList[it].let { anime ->
+                                                CardItem(
+                                                    imageUrl = anime.images.jpg.large_image_url,
+                                                    title = anime.title,
+                                                    id = anime.mal_id,
+                                                    onCardClick = {
+                                                        navController.navigate("animeDetail/${anime.mal_id}")
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    })
+                            } else {
+                                LazyVerticalGrid(
+                                    modifier = Modifier.padding(all = 5.dp),
+                                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    columns = GridCells.Fixed(3),
+                                    content = {
+                                        items(
+                                            count = searchState.data.mangaList.size,
+                                            key = { it }
+                                        ) {
+                                            searchState.data.mangaList[it].let { manga ->
+                                                CardItem(
+                                                    imageUrl = manga.images.jpg.large_image_url,
+                                                    title = manga.title,
+                                                    id = manga.mal_id,
+                                                    onCardClick = {
+                                                        navController.navigate("mangaDetail/${manga.mal_id}")
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    })
+                            }
+                        }
+
+                    else {
+                        when (searchHistory) {
+                            is DataResult.Loading -> {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Loading(modifier = Modifier.fillMaxWidth())
+                                }
+                            }
+
+                            is DataResult.Success -> {
                                 Text(
-                                    text = "No history"
+                                    text = "search history",
+                                    style = MaterialTheme.typography.titleLarge.copy(
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    modifier = Modifier
+                                        .padding(all = 10.dp)
+                                )
+                                if (searchHistory.data.isEmpty()) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "No history"
+                                        )
+                                    }
+                                }
+                                LazyColumn(
+                                    content = {
+                                        items(
+                                            count = searchHistory.data.size,
+                                            itemContent = { index ->
+                                                SearchListItem(
+                                                    text = searchHistory.data[index].searchName,
+                                                    onItemClick = {
+                                                        searching = true
+                                                        searchScreenViewModel.getSearch(name = searchHistory.data[index].searchName)
+                                                    },
+                                                    onCloseClick = {
+                                                        searchScreenViewModel.deleteSearch(
+                                                            searchHistory.data[index]
+                                                        )
+                                                    })
+                                            })
+                                    })
+                            }
+
+                            is DataResult.Error -> {
+                                ErrorMessage(
+                                    onClick = {
+                                        searchScreenViewModel.getSearchHistory()
+                                    }
                                 )
                             }
                         }
-                        LazyColumn(
-                            content = {
-                                items(
-                                    count = searchHistory.data.size,
-                                    itemContent = {index ->
-                                        SearchListItem(
-                                            text = searchHistory.data[index].searchName,
-                                            onItemClick = {},
-                                            onCloseClick = {
-                                                searchScreenViewModel.deleteSearch(searchHistory.data[index])
-                                            })
-                                    })
-                            })
-                    }
-
-                    is DataResult.Error -> {
-
                     }
                 }
-            }
+
+                    is DataResult.Error -> {
+                        ErrorMessage(
+                            onClick = {
+                                searching = true
+                                searchScreenViewModel.getSearch(name = searchName)
+                                searchScreenViewModel.addSearchItem(search = searchName)
+                            }
+                        )
+                    }
+                }
         }
     }
 }
+
+

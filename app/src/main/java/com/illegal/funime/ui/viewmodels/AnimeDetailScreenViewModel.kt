@@ -106,6 +106,11 @@ class AnimeDetailScreenViewModel (application: Application) : AndroidViewModel(a
         }
         _favouriteState.value = flag
     }
+
+    fun reload(id : Int){
+        _state.value = AnimeDetailState.Loading
+        getAnimeById(id = id)
+    }
 }
 
 sealed class AnimeDetailState{

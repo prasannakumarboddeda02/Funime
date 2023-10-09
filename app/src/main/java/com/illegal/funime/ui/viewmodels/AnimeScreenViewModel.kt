@@ -1,11 +1,13 @@
 package com.illegal.funime.ui.viewmodels
 
+import android.provider.ContactsContract
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.illegal.funime.data.DataResult
 import com.illegal.funime.data.datamodels.retrofit.animemodel.Data
 import com.illegal.funime.data.repositories.AnimeRepository
 import com.illegal.funime.ui.MainActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,5 +37,16 @@ class AnimeScreenViewModel : ViewModel() {
         viewModelScope.launch {
             _state.value = animeRepository.getAllList()
         }
+    }
+
+    fun reload(){
+        try {
+            _state.value = DataResult.Loading
+            getAllList()
+        }
+        catch(e : Exception){
+            _state.value = DataResult.Error(e = e)
+        }
+
     }
 }

@@ -131,7 +131,11 @@ fun AnimeDetailScreen(
                 }
 
                 is AnimeDetailState.Error -> {
-                    ErrorMessage()
+                    ErrorMessage(
+                        onClick = {
+                            viewModel.reload(id = id.toInt())
+                        }
+                    )
                 }
 
             }
