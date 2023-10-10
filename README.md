@@ -17,5 +17,7 @@ Firebase Crashlytics: Integrated for real-time crash reporting and analysis.
 
 # Screens
 
-| Anime Screen | Manga Screen |
-| ------------ | ------------ |
+| Anime Screen | Manga Screen | Favourites Screen |
+| ------------ | ------------ | ----------------- |
+|![animescreen](https://github.com/prasannakumarboddeda02/Funime/assets/112362123/1c3c4b0e-2037-4739-a5a7-d711fed79cd3)|
+
