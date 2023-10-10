@@ -28,9 +28,7 @@ Firebase Crashlytics: Integrated for real-time crash reporting and analysis.
 | More Anime Screen |
 | ------------ |
 |<img src="https://github.com/prasannakumarboddeda02/Funime/assets/112362123/f4ae67a5-4181-4773-88e2-8c2fc69ee158" height="500">|
-
 # Contributing
-
 Contributions to Funime are welcome! If you would like to contribute, please follow these steps:
 
 1. Fork the repository by clicking the "Fork" button on the top right corner of the Funime repository page. This will create a copy of the repository under your GitHub account.
