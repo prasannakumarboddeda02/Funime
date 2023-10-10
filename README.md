@@ -23,4 +23,10 @@ Firebase Crashlytics: Integrated for real-time crash reporting and analysis.
 
 | Search Screen | Anime Detail Screen | Settings Screen |
 | ------------ | ------------ | ----------------- |
+|<img src="https://github.com/prasannakumarboddeda02/Funime/assets/112362123/a50e20cb-fa5e-4049-b53f-cd81e657b0d4">|<img src="https://github.com/prasannakumarboddeda02/Funime/assets/112362123/7f1211ca-a4c7-42d3-a3be-ccc3284087c9" height="500">|<img src="https://github.com/prasannakumarboddeda02/Funime/assets/112362123/fb6ebe2a-a415-4fcb-a448-1c2fa389bff2" height="500">|
+
+| More Anime Screen |
+| ------------ |
+|<img src="https://github.com/prasannakumarboddeda02/Funime/assets/112362123/f4ae67a5-4181-4773-88e2-8c2fc69ee158">|
+
 
