@@ -1,5 +1,4 @@
 
-
 # Funime
 Funime is an app for anime fans. It gives users info about anime using MyAnimeList's database. Users can search for anime titles, and see the synopsis, cast, and crew. Funime helps users stay up-to-date with the latest anime releases and discover new shows.
 
@@ -15,3 +14,5 @@ Funime is an app for anime fans. It gives users info about anime using MyAnimeLi
 * Paging 3 and Paging Compose: Libraries used for implementing pagination in the app, enabling efficient data loading and display.
 Firebase Performance Monitoring: Integrated to monitor app performance and gather insights.
 Firebase Crashlytics: Integrated for real-time crash reporting and analysis.
+
+# Screens
