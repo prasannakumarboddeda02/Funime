@@ -1,4 +1,5 @@
 
+<img src="https://github.com/prasannakumarboddeda02/Funime/assets/112362123/64e423e6-7f53-4484-addc-c8ee96434da6" height="200">
 # Funime
 Funime is an app for anime fans. It gives users info about anime using MyAnimeList's database. Users can search for anime titles, and see the synopsis, cast, and crew. Funime helps users stay up-to-date with the latest anime releases and discover new shows.
 
