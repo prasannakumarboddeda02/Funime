@@ -16,3 +16,6 @@ Firebase Performance Monitoring: Integrated to monitor app performance and gathe
 Firebase Crashlytics: Integrated for real-time crash reporting and analysis.
 
 # Screens
+
+| Anime Screen | Manga Screen |
+| ------------ | ------------ |
