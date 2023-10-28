@@ -10,28 +10,28 @@ enum class PagerSlideManga(
 ) {
     PagerSlide1(
         image = R.drawable.berserk,
-        id = 813,
+        id = 2,
         title = "Berserk",
         description = ""
     ),
 
     PagerSlide2(
         image = R.drawable.vagabond,
-        id = 21,
+        id = 656,
         title = "Vagabond",
         description = ""
     ),
 
     PagerSlide3(
         image = R.drawable.monster,
-        id = 20,
+        id = 1,
         title = "Monster",
         description = ""
     ),
 
     PagerSlide4(
         image = R.drawable.oyasumipunpun,
-        id = 269,
+        id = 4632,
         title = "Oyasumi pun pun",
         description = ""
     )

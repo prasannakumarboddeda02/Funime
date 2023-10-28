@@ -68,10 +68,15 @@ fun Pager(
             pageNestedScrollConnection = PagerDefaults.pageNestedScrollConnection(
                 Orientation.Horizontal
             ),
-            pageContent = /*fun PagerScope.(index: Int) */{index ->
+            pageContent = {index ->
                 Box(
                     modifier = Modifier
-                        .clickable { navController.navigate("animeDetail/${if (anime) slidesAnime[index].id else slidesManga[index].id}") }
+                        .clickable {
+                            if(anime)
+                                navController.navigate("animeDetail/${slidesAnime[index].id}")
+                            else
+                                navController.navigate("mangaDetail/${slidesManga[index].id}")
+                        }
                 ) {
                     Image(
                         painter = painterResource(id = if (anime) slidesAnime[index].image else slidesManga[index].image),
